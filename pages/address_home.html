@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/home_page.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap">
+    <title>Employee Payroll App</title>
+</head>
+<body>
+    <header class="header-content header">
+        <div class="logo-content">
+            <img src="../assets/logo.png" alt="logo">
+            <div>
+                <span class="emp-text">EMPLOYEE</span><br>
+                <span class="emp-text emp-payroll">PAYROLL</span>
+            </div>
+        </div>
+    </header>
+    <div class="main-content">
+        <div class="sub-header-content">
+            <div class="emp-detail-text">
+                Employee Details <div class="emp-count">0</div>
+            </div>
+            <a href="../pages/payroll_form.html" class="add-button">
+            <img src="../assets/add-24px.svg" alt="add">Add User</a>
+        </div>
+        <table id="table-display" class="table">            
+        </table>
+    </div>
+    <script defer src="../js/home_page.js"></script>
+    <script defer src="../js/site_properties.js"></script>
+    <script defer src="../js/utility.js"></script>
+    <!-- <script defer src="../js/EmpPayrollData.js"></script> -->
+    <script defer src="../js/service_call.js"></script>
+</body>
+</html>

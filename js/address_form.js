@@ -109,3 +109,22 @@ const createNewContactID = () => {
     localStorage.setItem("ContactID", contactID);
     return contactID;
 }
+
+const resetForm = () => {
+    setValue('#name', '');
+    setValue('#mobile', '');
+    setValue('#address', '');
+    setSelectedIndex('#city', 0);
+    setSelectedIndex('#state', 0);
+    setValue('#zip', '');
+}
+
+const setValue = (id, value) => {
+    const element = document.querySelector(id);
+    element.value = value;
+}
+
+const setSelectedIndex = (id, index) => {
+    const element = document.querySelector(id);
+    element.selectedIndex = index;
+}

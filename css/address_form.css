@@ -212,6 +212,7 @@ select
 {
     text-decoration: none;
     text-align: center;
+    cursor: pointer;
 }
 
 error-output
