@@ -48,4 +48,30 @@ window.addEventListener('DOMContentLoaded', (Event) => {
         } 
         else mobileError.textContent = "Invalid Phone Number!";
     });
-})
+});
+
+const save = (Event) => {
+    try 
+    {
+        setContactJsonObject();
+    } 
+    catch (error) 
+    {
+        alert(error);
+        return;
+    }
+};
+
+const setContactJsonObject = () => {
+    contactObject._name = getInputValueById('#name');
+    contactObject._address = getInputValueById('#address');
+    contactObject._city = getInputValueById('#city');
+    contactObject._state = getInputValueById('#state');
+    contactObject._zip = getInputValueById('#zip');
+    contactObject._mobile = getInputValueById('#mobile')
+}
+
+const getInputValueById = (id) => {
+    let value = document.querySelector(id).value;
+    return value;
+}
