@@ -71,6 +71,7 @@ body
     opacity: 1;
     text-align: center;
     padding: 15px;
+    margin-bottom: 20px;
 }
 
 .form-head-text
@@ -90,10 +91,24 @@ body
 .row-content
 {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 10px;
-    align-items: center;
+    align-items: left;
     border: 0px solid green;
+}
+
+.row-container 
+{
+    display: flex;
+    flex-flow: row ;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.row-container-item 
+{
+    display: flex;
+    flex-direction: column;
 }
 
 .label
