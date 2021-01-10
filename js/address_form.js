@@ -1,3 +1,5 @@
+let contactObject = {};
+
 window.addEventListener('DOMContentLoaded', (Event) => {
     const name = document.querySelector('#name');
     const textError = document.querySelector('.text-error');
@@ -54,6 +56,7 @@ const save = (Event) => {
     try 
     {
         setContactJsonObject();
+        createOrUpdateContact();
     } 
     catch (error) 
     {
@@ -63,15 +66,46 @@ const save = (Event) => {
 };
 
 const setContactJsonObject = () => {
+    contactObject._id = createNewContactID();
     contactObject._name = getInputValueById('#name');
     contactObject._address = getInputValueById('#address');
     contactObject._city = getInputValueById('#city');
     contactObject._state = getInputValueById('#state');
     contactObject._zip = getInputValueById('#zip');
-    contactObject._mobile = getInputValueById('#mobile')
+    contactObject._mobile = getInputValueById('#mobile');
 }
 
 const getInputValueById = (id) => {
     let value = document.querySelector(id).value;
     return value;
+}
+
+const createOrUpdateContact = () => {
+    let contactList = JSON.parse(localStorage.getItem("ContactList"));
+
+    if(contactList)
+    {
+        let contactData = contactList.find(contactObj => contactObj.id == contactObject._id);
+        if(!contactData) { contactList.push(contactObject); }
+        else
+        {
+            const index = contactList
+                            .map(contactObj => contactObj.id)
+                            .indexOf(contactData.id);
+            contactList.splice(index, 1, contactObject);
+        }    
+    }
+    else
+    {
+        contactList = [contactObject];
+    }
+    alert(contactList.toString());
+    localStorage.setItem("ContactList", JSON.stringify(contactList));
+}
+
+const createNewContactID = () => {
+    let contactID = localStorage.getItem("ContactID");
+    contactID = !contactID ? 1 : (parseInt(contactID) + 1).toString();
+    localStorage.setItem("ContactID", contactID);
+    return contactID;
 }
