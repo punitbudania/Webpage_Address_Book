@@ -66,12 +66,25 @@ body
 
 .form-head
 {
-    font: normal normal bold 24px/37px Roboto;
+    background-color: #008CFF;
     letter-spacing: 0px;
-    color: #42515f;
-    text-transform: capitalize;
     opacity: 1;
-    padding-bottom: 20px;
+    text-align: center;
+    padding: 15px;
+}
+
+.form-head-text
+{
+    color: #ffffff;
+    text-transform: capitalize;
+    font: normal normal 24px/37px Roboto;
+}
+
+.cancel-image 
+{
+    margin-top: 5px;
+    cursor: pointer;
+    margin-left: 250px;
 }
 
 .row-content
