@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/address_form.css">
     <title>Address Book Form</title>
-    <script defer src="../js/payroll_form.js"></script>
+    <script defer src="../js/address_form.js"></script>
 </head>
 <body>
     <header class="header-content header">
@@ -34,11 +34,12 @@
             <div class="row-content">
                 <label class="label text" for="mobile">Phone Number</label>
                 <input class="input" type="text" type="tel" id="mobile" name="mobile">
-                <error-output class="text-error" for="text"></error-output>
+                <error-output class="mobile-error" for="text"></error-output>
             </div>
             <div class="row-content">
                 <label class="label text" for="address">Address</label>
                 <textarea name="address" id="address" class="input" style="height: 100px;"></textarea>
+                <error-output class="address-error" for="text"></error-output>
             </div>
             <div class="row-content">
                 <div class="row-container">
