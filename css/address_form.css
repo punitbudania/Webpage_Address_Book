@@ -195,11 +195,17 @@ select
     border: 1px solid #969696;
     border-radius: 5px;
     opacity: 1;
+    margin-top: 20px;
 }
 
 .submitButton
 {
     margin-right: 30px;
+}
+
+.submit-reset
+{
+    margin-left: 400px;
 }
 
 .cancelButton
