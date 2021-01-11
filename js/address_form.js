@@ -1,5 +1,6 @@
 let isUpdate = false;
 let contactObject = {};
+let contactObj = {};
 
 window.addEventListener('DOMContentLoaded', (Event) => {
     const name = document.querySelector('#name');
@@ -60,6 +61,9 @@ const save = (Event) => {
     {
         setContactJsonObject();
         createOrUpdateContact();
+        resetForm();
+        localStorage.removeItem('editContact');
+        window.location.replace("../pages/address_home.html");
     } 
     catch (error) 
     {
@@ -69,7 +73,8 @@ const save = (Event) => {
 };
 
 const setContactJsonObject = () => {
-    contactObject._id = createNewContactID();
+    if(isUpdate) contactObject._id = contactObj._id;
+    else contactObject._id = createNewContactID();
     contactObject._name = getInputValueById('#name');
     contactObject._address = getInputValueById('#address');
     contactObject._city = getInputValueById('#city');
@@ -88,14 +93,14 @@ const createOrUpdateContact = () => {
 
     if(contactList)
     {
-        let contactData = contactList.find(contactObj => contactObj.id == contactObject._id);
+        let contactData = contactList.find(contact => contact._id == contactObject._id);
         if(!contactData) { contactList.push(contactObject); }
         else
         {
             const index = contactList
-                            .map(contactObj => contactObj.id)
-                            .indexOf(contactData.id);
-            contactList.splice(index, 1, contactObject);
+                            .map(contact => contact._id)
+                            .indexOf(contactData._id);
+            contactList.splice(index, 1, createContact(contactData._id));
         }    
     }
     else
@@ -106,9 +111,44 @@ const createOrUpdateContact = () => {
     localStorage.setItem("ContactList", JSON.stringify(contactList));
 }
 
+const createContact = (id) => {
+    let contact = new Contacts();
+    if (!id) contact.id = createNewContactID();
+    else contact.id = id;
+    setContactData(contact);
+    return contact;
+}
+
+const setContactData = (contact) => {
+    try {
+      contact.name = contactObject._name;
+    } catch (error) {
+      setTextValue('.name-error', error);
+      throw error;
+    }
+  
+    try {
+      contact.address = contactObject._address;
+    } catch (error) {
+      setTextValue('.address-error', error);
+      throw error;
+    }
+  
+    contact.city = contactObject._city;
+    contact.state = contactObject._state;
+    contact.zip = contactObject._zip;
+
+    try {
+      contact.mobile = contactObject._mobile;
+    } catch (error) {
+      setTextValue('.mobile-error', error);
+      throw error;
+    }
+}
+
 const createNewContactID = () => {
     let contactID = localStorage.getItem("ContactID");
-    contactID = !contactID ? 1 : (parseInt(contactID) + 1).toString();
+    contactID = !contactID ? (1).toString() : (parseInt(contactID) + 1).toString();
     localStorage.setItem("ContactID", contactID);
     return contactID;
 }
