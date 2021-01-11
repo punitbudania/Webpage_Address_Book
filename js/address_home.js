@@ -47,6 +47,13 @@ const remove = (node) => {
                     .indexOf(contactData._id);
     contactList.splice(index, 1);
     localStorage.setItem("ContactList", JSON.stringify(contactList));
-    document.querySelector(".person-count").textContent = contactList.length;
+    //document.querySelector(".person-count").textContent = contactList.length;
     createInnerHtml();
+}
+
+const update = (node) => {
+    let contactData = contactList.find(conData => conData._id == node.id);
+    if(!contactData) return;
+    localStorage.setItem('editContact', JSON.stringify(contactData));
+    window.location.replace(site_properties.form_page);
 }

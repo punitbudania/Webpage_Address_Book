@@ -1,3 +1,4 @@
+let isUpdate = false;
 let contactObject = {};
 
 window.addEventListener('DOMContentLoaded', (Event) => {
@@ -50,6 +51,8 @@ window.addEventListener('DOMContentLoaded', (Event) => {
         } 
         else mobileError.textContent = "Invalid Phone Number!";
     });
+
+    checkForUpdate();
 });
 
 const save = (Event) => {
@@ -127,4 +130,21 @@ const setValue = (id, value) => {
 const setSelectedIndex = (id, index) => {
     const element = document.querySelector(id);
     element.selectedIndex = index;
+}
+
+const checkForUpdate = () => {
+    const contactJson = localStorage.getItem('editContact');
+    isUpdate = contactJson ? true : false;
+    if (!isUpdate) return;
+    contactObj = JSON.parse(contactJson);
+    setForm();
+}
+
+const setForm = () => {
+    setValue('#name', contactObj._name);
+    setValue('#mobile', contactObj._mobile);
+    setValue('#address', contactObj._address);
+    setValue('#city', contactObj._city);
+    setValue('#state', contactObj._state);
+    setValue('#zip', contactObj._zip);
 }
