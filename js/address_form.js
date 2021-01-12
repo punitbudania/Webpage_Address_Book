@@ -84,6 +84,7 @@ const save = (Event) => {
         else
         {
             createOrUpdateContactOnServer();
+            localStorage.removeItem('editContact');
         }
     } 
     catch (error) 
@@ -99,7 +100,7 @@ const createOrUpdateContactOnServer = () => {
     if(isUpdate)
     {
         methodCall = "PUT";
-        postURL = postURL + contactObject.id.toString();
+        postURL = postURL + (contactObject.id).toString();
     }
     makeServiceCall(methodCall, postURL, false, contactObject)
         .then(responseText => {
@@ -112,11 +113,11 @@ const createOrUpdateContactOnServer = () => {
 }
 
 const setContactJsonObject = () => {
-    if(site_properties.use_local_storage.match("true"))
+    if(!isUpdate && site_properties.use_local_storage.match("true"))
     {
-        if(isUpdate) contactObject.id = contactObj.id;
-        else contactObject.id = createNewContactID();
+        contactObject.id = createNewContactID();
     }
+    else contactObject.id = contactObj.id;
     contactObject._name = getInputValueById('#name');
     contactObject._address = getInputValueById('#address');
     contactObject._city = getInputValueById('#city');
