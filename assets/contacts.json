@@ -26,24 +26,6 @@
       "_zip": "3",
       "_mobile": "6644788233",
       "id": 3
-    },
-    {
-      "id": 4,
-      "_name": "Kolas",
-      "_address": "ssd hhs",
-      "_city": "Bengaluru",
-      "_state": "Karnataka",
-      "_zip": "6",
-      "_mobile": "1111111111"
-    },
-    {
-      "_name": "Mius",
-      "_address": "jsf",
-      "_city": "New Delhi",
-      "_state": "Delhi",
-      "_zip": "5",
-      "_mobile": "7643874870",
-      "id": 5
     }
   ]
 }
