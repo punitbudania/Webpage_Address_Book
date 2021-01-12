@@ -1,0 +1,31 @@
+{
+    "ContactDB": [
+      {
+        "id": 1,
+        "_name": "Mark",
+        "_address": "any",
+        "_city" : "Jaipur",
+        "_state" : "Rajasthan",
+        "_zip" : "1",
+        "_mobile" : "9999223311"       
+      },
+      {
+        "_name": "Amarpa Shashanka Keerthi Kumar",
+        "_address": "do",
+        "_city" : "Jaipur",
+        "_state" : "Delhi",
+        "_zip" : "2",
+        "_mobile" : "5599223311", 
+        "id": 2
+      },
+      {
+        "_name": "Rock",
+        "_address": "Long",
+        "_city" : "Kolkata",
+        "_state" : "Rajasthan",
+        "_zip" : "3",
+        "_mobile" : "6644788233",
+        "id": 3
+      }
+    ]
+  }

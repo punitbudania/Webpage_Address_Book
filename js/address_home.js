@@ -1,13 +1,34 @@
 let contactList;
 window.addEventListener('DOMContentLoaded', (Event) =>{
-    contactList = getContactDataFromStorage();
-    document.querySelector('.person-count').textContent = contactList.length;
-    createInnerHtml();
-    //localStorage.removeItem('editContact');
+    if(site_properties.use_local_storage.match("true"))
+    {
+        getContactDataFromStorage();
+    }
+    else getContactDataFromServer();
 });
 
 const getContactDataFromStorage = () => {
-    return localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
+    contactList = localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
+    processContactDataResponse();
+}
+
+const processContactDataResponse = () => {
+    document.querySelector('.person-count').textContent = contactList.length;
+    createInnerHtml();
+    //localStorage.removeItem('editContact');
+}
+
+const getContactDataFromServer = () => {
+    makeServiceCall("GET", site_properties.server_url, false)
+        .then(responseText => {
+            empPayrollList = JSON.parse(responseText);
+            processEmployeePayrollDataResponse();
+        })
+        .catch(error => {
+            console.log("GET error status" + JSON.stringify(error));
+            empPayrollList = [];
+            processEmployeePayrollDataResponse();
+        });
 }
 
 const createInnerHtml = () => {
@@ -31,8 +52,8 @@ const createInnerHtml = () => {
             <td>${contactData._zip}</td>
             <td>${contactData._mobile}</td>
             <td>
-                <img id="${contactData._id}" onclick="remove(this)" alt="delete" src="../assets/delete-black-18dp.svg">
-                <img id="${contactData._id}" onclick="update(this)" alt="edit" src="../assets/create-black-18dp.svg">
+                <img id="${contactData.id}" onclick="remove(this)" alt="delete" src="../assets/delete-black-18dp.svg">
+                <img id="${contactData.id}" onclick="update(this)" alt="edit" src="../assets/create-black-18dp.svg">
             </td>
         </tr>`;
     }
@@ -40,11 +61,11 @@ const createInnerHtml = () => {
 }
 
 const remove = (node) => {
-    let contactData = contactList.find(conData => conData._id == node.id);
+    let contactData = contactList.find(conData => conData.id == node.id);
     if (!contactData) return;
     const index = contactList
-                    .map(conData => conData._id)
-                    .indexOf(contactData._id);
+                    .map(conData => conData.id)
+                    .indexOf(contactData.id);
     contactList.splice(index, 1);
     localStorage.setItem("ContactList", JSON.stringify(contactList));
     //document.querySelector(".person-count").textContent = contactList.length;
@@ -52,7 +73,7 @@ const remove = (node) => {
 }
 
 const update = (node) => {
-    let contactData = contactList.find(conData => conData._id == node.id);
+    let contactData = contactList.find(conData => conData.id == node.id);
     if(!contactData) return;
     localStorage.setItem('editContact', JSON.stringify(contactData));
     window.location.replace(site_properties.form_page);
