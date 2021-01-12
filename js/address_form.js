@@ -12,13 +12,17 @@ window.addEventListener('DOMContentLoaded', (Event) => {
             //setTextValue('.text-error', "");
             return;
         }
-
-        let nameRegex = RegExp('^[A-Z]{1}[a-zA-Z\\s]{2,}$')
-        if (nameRegex.test(name.value))
+        try 
         {
+            checkName(name.value);
             textError.textContent = "";
+            //setTextValue('.text-error', "");
         } 
-        else textError.textContent = "Invalid Name!";
+        catch (error)
+        {
+            //setTextValue('.text-error', error);
+            textError.textContent = error;    
+        }
     });
 
     const address = document.querySelector('#address');
@@ -29,12 +33,17 @@ window.addEventListener('DOMContentLoaded', (Event) => {
             addressError.textContent = "";
             return;
         }
-        let addressRegex = RegExp('^[A-Za-z0-9,\\.]{3,}([\\s][A-Za-z0-9,\\.]{3,}){0,}$');
-        if (addressRegex.test(address.value)) 
+        try 
         {
+            checkAddress(address.value);
             addressError.textContent = "";
+            //setTextValue('.text-error', "");
         } 
-        else addressError.textContent = "Invalid Address!";
+        catch (error)
+        {
+            //setTextValue('.text-error', error);
+            addressError.textContent = error;    
+        }
     });
 
     const mobile = document.querySelector('#mobile');
@@ -45,12 +54,17 @@ window.addEventListener('DOMContentLoaded', (Event) => {
             mobileError.textContent = "";
             return;
         }
-        let mobileRegex = RegExp('^(([+])?[0-9]{2}[\\s])?[1-9]{1}[0-9]{9}$');
-        if (mobileRegex.test(mobile.value)) 
+        try 
         {
+            checkMobile(mobile.value);
             mobileError.textContent = "";
+            //setTextValue('.text-error', "");
         } 
-        else mobileError.textContent = "Invalid Phone Number!";
+        catch (error)
+        {
+            //setTextValue('.text-error', error);
+            mobileError.textContent = error;    
+        }
     });
 
     checkForUpdate();
@@ -60,21 +74,49 @@ const save = (Event) => {
     try 
     {
         setContactJsonObject();
-        createOrUpdateContact();
-        resetForm();
-        localStorage.removeItem('editContact');
-        window.location.replace("../pages/address_home.html");
+        if(site_properties.use_local_storage.match("true"))
+        {
+            createOrUpdateContact();
+            resetForm();
+            localStorage.removeItem('editContact');
+            window.location.replace("../pages/address_home.html");
+        }
+        else
+        {
+            createOrUpdateContactOnServer();
+        }
     } 
     catch (error) 
     {
         alert(error);
         return;
     }
-};
+}
+
+const createOrUpdateContactOnServer = () => {
+    let postURL = site_properties.server_url;
+    let methodCall = "POST";
+    if(isUpdate)
+    {
+        methodCall = "PUT";
+        postURL = postURL + contactObject.id.toString();
+    }
+    makeServiceCall(methodCall, postURL, false, contactObject)
+        .then(responseText => {
+            resetForm();
+            window.location.replace(site_properties.home_page);
+        })
+        .catch(error => {
+            throw error;
+        });
+}
 
 const setContactJsonObject = () => {
-    if(isUpdate) contactObject._id = contactObj._id;
-    else contactObject._id = createNewContactID();
+    if(site_properties.use_local_storage.match("true"))
+    {
+        if(isUpdate) contactObject.id = contactObj.id;
+        else contactObject.id = createNewContactID();
+    }
     contactObject._name = getInputValueById('#name');
     contactObject._address = getInputValueById('#address');
     contactObject._city = getInputValueById('#city');
@@ -93,14 +135,14 @@ const createOrUpdateContact = () => {
 
     if(contactList)
     {
-        let contactData = contactList.find(contact => contact._id == contactObject._id);
+        let contactData = contactList.find(contact => contact.id == contactObject.id);
         if(!contactData) { contactList.push(contactObject); }
         else
         {
             const index = contactList
-                            .map(contact => contact._id)
-                            .indexOf(contactData._id);
-            contactList.splice(index, 1, createContact(contactData._id));
+                            .map(contact => contact.id)
+                            .indexOf(contactData.id);
+            contactList.splice(index, 1, createContact(contactData.id));
         }    
     }
     else
