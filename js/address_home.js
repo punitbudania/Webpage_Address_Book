@@ -21,13 +21,13 @@ const processContactDataResponse = () => {
 const getContactDataFromServer = () => {
     makeServiceCall("GET", site_properties.server_url, false)
         .then(responseText => {
-            empPayrollList = JSON.parse(responseText);
-            processEmployeePayrollDataResponse();
+            contactList = JSON.parse(responseText);
+            processContactDataResponse();
         })
         .catch(error => {
             console.log("GET error status" + JSON.stringify(error));
-            empPayrollList = [];
-            processEmployeePayrollDataResponse();
+            contactList = [];
+            processContactDataResponse();
         });
 }
 
